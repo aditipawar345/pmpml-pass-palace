@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import SelectPassPage from "./pages/SelectPassPage";
 import ApplyPassPage from "./pages/ApplyPassPage";
@@ -12,29 +12,75 @@ import PassGeneratedPage from "./pages/PassGeneratedPage";
 import NotFound from "./pages/NotFound";
 import LoginPage from "./pages/LoginPage";
 import { ChatbotWrapper } from "./components/ChatbotWrapper";
+import { useEffect, useState } from "react";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <ChatbotWrapper>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/select-pass" element={<SelectPassPage />} />
-            <Route path="/apply/:passType" element={<ApplyPassPage />} />
-            <Route path="/payment" element={<PaymentPage />} />
-            <Route path="/pass-generated" element={<PassGeneratedPage />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </ChatbotWrapper>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const AuthRoute = ({ children }: { children: React.ReactNode }) => {
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  
+  if (!isLoggedIn) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  return <>{children}</>;
+};
+
+const App = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect(() => {
+    // This simulates checking authentication status
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+  }, []);
+  
+  if (isLoading) {
+    return <div className="flex items-center justify-center h-screen">Loading...</div>;
+  }
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <ChatbotWrapper>
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/" element={
+                <AuthRoute>
+                  <HomePage />
+                </AuthRoute>
+              } />
+              <Route path="/select-pass" element={
+                <AuthRoute>
+                  <SelectPassPage />
+                </AuthRoute>
+              } />
+              <Route path="/apply/:passType" element={
+                <AuthRoute>
+                  <ApplyPassPage />
+                </AuthRoute>
+              } />
+              <Route path="/payment" element={
+                <AuthRoute>
+                  <PaymentPage />
+                </AuthRoute>
+              } />
+              <Route path="/pass-generated" element={
+                <AuthRoute>
+                  <PassGeneratedPage />
+                </AuthRoute>
+              } />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </ChatbotWrapper>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
