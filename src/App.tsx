@@ -10,6 +10,8 @@ import ApplyPassPage from "./pages/ApplyPassPage";
 import PaymentPage from "./pages/PaymentPage";
 import PassGeneratedPage from "./pages/PassGeneratedPage";
 import NotFound from "./pages/NotFound";
+import LoginPage from "./pages/LoginPage";
+import { ChatbotWrapper } from "./components/ChatbotWrapper";
 
 const queryClient = new QueryClient();
 
@@ -19,14 +21,17 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/select-pass" element={<SelectPassPage />} />
-          <Route path="/apply/:passType" element={<ApplyPassPage />} />
-          <Route path="/payment" element={<PaymentPage />} />
-          <Route path="/pass-generated" element={<PassGeneratedPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <ChatbotWrapper>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/select-pass" element={<SelectPassPage />} />
+            <Route path="/apply/:passType" element={<ApplyPassPage />} />
+            <Route path="/payment" element={<PaymentPage />} />
+            <Route path="/pass-generated" element={<PassGeneratedPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </ChatbotWrapper>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
