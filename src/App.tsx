@@ -1,9 +1,14 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
+import HomePage from "./pages/HomePage";
+import SelectPassPage from "./pages/SelectPassPage";
+import ApplyPassPage from "./pages/ApplyPassPage";
+import PaymentPage from "./pages/PaymentPage";
+import PassGeneratedPage from "./pages/PassGeneratedPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -15,8 +20,11 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/select-pass" element={<SelectPassPage />} />
+          <Route path="/apply/:passType" element={<ApplyPassPage />} />
+          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/pass-generated" element={<PassGeneratedPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
