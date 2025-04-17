@@ -20,7 +20,7 @@ const LoginPage = () => {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Simple validation
+    // Simple validation - allow login with any non-empty email and password
     if (!email || !password) {
       toast({
         title: "Error",
@@ -30,27 +30,18 @@ const LoginPage = () => {
       return;
     }
 
-    // Mock login for demo
-    // In a real app, this would connect to a backend
-    if (email === "user@example.com" && password === "password") {
-      toast({
-        title: "Success",
-        description: "Login successful",
-      });
-      
-      // Store login state
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("user", JSON.stringify({ email }));
-      
-      // Redirect to home page
-      navigate("/");
-    } else {
-      toast({
-        title: "Error",
-        description: "Invalid email or password. Try user@example.com / password",
-        variant: "destructive",
-      });
-    }
+    // Simplified login - allow any credentials
+    toast({
+      title: "Success",
+      description: "Login successful",
+    });
+    
+    // Store login state
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("user", JSON.stringify({ email }));
+    
+    // Redirect to home page
+    navigate("/");
   };
 
   return (
@@ -114,3 +105,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
