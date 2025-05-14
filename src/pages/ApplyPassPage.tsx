@@ -16,8 +16,16 @@ const ApplyPassPage = () => {
   const navigate = useNavigate();
   
   const handleSubmit = async (data: PersonalInfoFormData) => {
+    // Ensure data is a complete PersonalInfoFormData object to satisfy TypeScript
+    const validatedData: PersonalInfoFormData = {
+      userName: data.userName,
+      aadharNumber: data.aadharNumber,
+      address: data.address,
+      area: data.area,
+    };
+    
     const currentPassType = passType || "oneday";
-    const passInfo = createPassInfo(data, currentPassType);
+    const passInfo = createPassInfo(validatedData, currentPassType);
     
     const photoPreview = ""; // Define or assign the appropriate value
     const bonafidePreview = ""; // Define or assign the appropriate value
