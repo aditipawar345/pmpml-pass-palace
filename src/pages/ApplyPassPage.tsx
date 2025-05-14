@@ -45,9 +45,9 @@ const ApplyPassPage = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data: any) => {
-    const passType = data.passType || (passType as string);
+    const currentPassType = data.passType || passType;
     const passInfo: PassInfo = {
-      passType: passType as "oneday" | "onemonth" | "threemonths",
+      passType: currentPassType as "oneday" | "onemonth" | "threemonths",
       userName: data.userName,
       aadharNumber: data.aadharNumber,
       address: data.address,
@@ -59,7 +59,7 @@ const ApplyPassPage = () => {
     const photoPreview = ""; // Define or assign the appropriate value
     const bonafidePreview = ""; // Define or assign the appropriate value
 
-    if (passType !== "oneday") {
+    if (currentPassType !== "oneday") {
       passInfo.photoUrl = photoPreview;
       passInfo.bonafideUrl = bonafidePreview;
     }
@@ -74,9 +74,9 @@ const ApplyPassPage = () => {
           user_name: data.userName,
           aadhar_number: data.aadharNumber,
           address: data.address,
-          pass_id: getPassId(passType),
+          pass_id: getPassId(currentPassType),
           booking_date: new Date().toISOString().split("T")[0],
-          expiry_date: calculateExpiryDate(passType),
+          expiry_date: calculateExpiryDate(currentPassType),
         }),
       });
 
@@ -113,4 +113,3 @@ const ApplyPassPage = () => {
 
 // Export both the component and the named export
 export default ApplyPassPage;
-export { ApplyPassPage };
