@@ -41,12 +41,8 @@ export const getPassTypeLabel = (passType: string | undefined): string => {
          "Pass";
 };
 
-export type PersonalInfoFormData = {
-  userName: string;
-  aadharNumber: string;
-  address: string;
-  area: string;
-};
+// Import the correct type from PersonalInfoForm
+import type { PersonalInfoFormData } from "@/components/forms/PersonalInfoForm";
 
 export const createPassInfo = (data: PersonalInfoFormData, passType: string): PassInfo => {
   const currentPassType = passType || "oneday";
