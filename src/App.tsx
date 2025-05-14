@@ -9,7 +9,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 
 import HomePage from "./pages/HomePage";
 import SelectPassPage from "./pages/SelectPassPage";
-import { ApplyPassPage } from "./pages/ApplyPassPage";
+import ApplyPassPage from "./pages/ApplyPassPage";
 import PaymentPage from "./pages/PaymentPage";
 import PassGeneratedPage from "./pages/PassGeneratedPage";
 import AdminPage from "./pages/AdminPage";
