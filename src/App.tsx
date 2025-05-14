@@ -39,9 +39,25 @@ const App = () => {
     }, 500);
 
     fetch("/api/")
-      .then((res) => res.json())
-      .then((data) => setMessage(data.message))
-      .catch((err) => console.error("Error:", err));
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`API returned status ${res.status}`);
+        }
+        return res.text();
+      })
+      .then((data) => {
+        try {
+          const jsonData = JSON.parse(data);
+          setMessage(jsonData.message);
+        } catch (e) {
+          console.error("Could not parse JSON from API:", e);
+          setMessage("Connected to backend");
+        }
+      })
+      .catch((err) => {
+        console.error("Error:", err);
+        setMessage("Could not connect to backend");
+      });
   }, []);
 
   if (isLoading) {
@@ -57,7 +73,7 @@ const App = () => {
           <ChatbotWrapper>
             <div className="ml-4 mt-2">
               <p className="text-green-700 font-semibold">
-                ✅ Backend says: {message}
+                ✅ Backend status: {message}
               </p>
             </div>
             <Routes>
