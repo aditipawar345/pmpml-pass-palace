@@ -6,7 +6,7 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PASS_TYPES, PassInfo } from "@/utils/passUtils";
-import { AlertCircle, Download, Home, Printer } from "lucide-react";
+import { AlertCircle, Download, Home, Printer, UserCheck } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { formatDate } from "date-fns";
 
@@ -187,6 +187,18 @@ export default function PassGeneratedPage() {
             <Button onClick={() => navigate("/")} variant="outline" className="flex-1">
               <Home className="mr-2 h-4 w-4" />
               Home
+            </Button>
+          </div>
+          
+          {/* Admin Link - Added for easy access */}
+          <div className="mt-8 text-center">
+            <Button 
+              onClick={() => navigate("/admin")} 
+              variant="outline" 
+              className="text-gray-600 hover:text-pmpml-red"
+            >
+              <UserCheck className="mr-2 h-4 w-4" />
+              Admin Dashboard
             </Button>
           </div>
         </div>

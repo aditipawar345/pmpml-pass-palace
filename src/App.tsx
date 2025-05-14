@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Navigate, BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -11,9 +12,9 @@ import SelectPassPage from "./pages/SelectPassPage";
 import { ApplyPassPage } from "./pages/ApplyPassPage";
 import PaymentPage from "./pages/PaymentPage";
 import PassGeneratedPage from "./pages/PassGeneratedPage";
+import AdminPage from "./pages/AdminPage";
 import NotFound from "./pages/NotFound";
 import { ChatbotWrapper } from "./components/ChatbotWrapper";
-import LoginPage from "./pages/LoginPage"; // ✅ Ensure this exists
 
 const queryClient = new QueryClient();
 
@@ -21,7 +22,7 @@ function AuthRoute({ children }: { children: React.ReactNode }) {
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
   if (!isLoggedIn) {
-    return <Navigate to="/login" replace />;
+    return <>{children}</>; // No longer redirecting to login
   }
 
   return <>{children}</>;
@@ -60,47 +61,12 @@ const App = () => {
               </p>
             </div>
             <Routes>
-              <Route path="/login" element={<LoginPage />} />
-              <Route
-                path="/"
-                element={
-                  <AuthRoute>
-                    <HomePage />
-                  </AuthRoute>
-                }
-              />
-              <Route
-                path="/select-pass"
-                element={
-                  <AuthRoute>
-                    <SelectPassPage />
-                  </AuthRoute>
-                }
-              />
-              <Route
-                path="/apply/:passType"
-                element={
-                  <AuthRoute>
-                    <ApplyPassPage />
-                  </AuthRoute>
-                }
-              />
-              <Route
-                path="/payment"
-                element={
-                  <AuthRoute>
-                    <PaymentPage />
-                  </AuthRoute>
-                }
-              />
-              <Route
-                path="/pass-generated"
-                element={
-                  <AuthRoute>
-                    <PassGeneratedPage />
-                  </AuthRoute>
-                }
-              />
+              <Route path="/" element={<AuthRoute><HomePage /></AuthRoute>} />
+              <Route path="/select-pass" element={<AuthRoute><SelectPassPage /></AuthRoute>} />
+              <Route path="/apply/:passType" element={<AuthRoute><ApplyPassPage /></AuthRoute>} />
+              <Route path="/payment" element={<AuthRoute><PaymentPage /></AuthRoute>} />
+              <Route path="/pass-generated" element={<AuthRoute><PassGeneratedPage /></AuthRoute>} />
+              <Route path="/admin" element={<AdminPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </ChatbotWrapper>
