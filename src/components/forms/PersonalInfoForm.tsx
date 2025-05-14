@@ -7,6 +7,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
 // Define form schema
 const formSchema = z.object({
@@ -29,9 +30,10 @@ export type PersonalInfoFormData = z.infer<typeof formSchema>;
 interface PersonalInfoFormProps {
   onSubmit: (data: PersonalInfoFormData) => void;
   passType: string;
+  isSubmitting?: boolean;
 }
 
-export const PersonalInfoForm = ({ onSubmit, passType }: PersonalInfoFormProps) => {
+export const PersonalInfoForm = ({ onSubmit, passType, isSubmitting = false }: PersonalInfoFormProps) => {
   const form = useForm<PersonalInfoFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -160,8 +162,16 @@ export const PersonalInfoForm = ({ onSubmit, passType }: PersonalInfoFormProps) 
           <Button 
             type="submit" 
             className="w-full bg-pmpml-red hover:bg-red-700"
+            disabled={isSubmitting}
           >
-            Continue to Payment
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Processing...
+              </>
+            ) : (
+              "Continue to Payment"
+            )}
           </Button>
         </div>
       </form>
